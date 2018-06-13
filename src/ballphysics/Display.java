@@ -9,17 +9,26 @@ import javax.swing.JFrame;
 
 public class Display extends Canvas{
     
+    public JFrame frame;
     public Dimension dimension;
     public int width;
     public int height;
     public BufferStrategy bufferStrategy;
+    public Graphics graphics;
+    public Ball ball;
     
     public Display(String title, int width, int height){
-        JFrame frame = new JFrame(title);
+        frame = new JFrame(title);
         this.width = width;
         this.height = height;
         dimension = new Dimension(height, width);
+        setup();
         
+        
+        
+    }
+    
+    public void setup(){
         this.setMinimumSize(dimension);
         this.setPreferredSize(dimension);
         this.setMaximumSize(dimension);
@@ -29,25 +38,6 @@ public class Display extends Canvas{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
-        
     }
     
-    public void render(){
-        if (bufferStrategy == null) {
-            createBufferStrategy(3);
-            bufferStrategy = getBufferStrategy();
-            return;
-        }
-        
-        Graphics g = bufferStrategy.getDrawGraphics();
-        ///////////////////////////////////
-        g.setColor(Color.BLACK);
-        g.fillRect(0,0, height, width);
-        
-        
-        
-        ///////////////////////////////////
-        g.dispose();
-        bufferStrategy.show();
-    }
 }
