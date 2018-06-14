@@ -27,7 +27,7 @@ public class BallPhysics implements Runnable{
     
     public synchronized void start(){
         running = true;
-        run();
+        thread.start();
     }
     
     public synchronized void stop(){
