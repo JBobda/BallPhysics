@@ -17,11 +17,12 @@ public class BallPhysics implements Runnable{
     public BallPhysics(){
         this.thread = new Thread(this);
         display = new Display("Ball Physics Simulation", WIDTH , HEIGHT );
-        init();
-    }
-    
-    public void init(){
-        ball = new Ball(10);
+        
+        int xPos =(int)(Math.random() * WIDTH);
+        int yPos = (int) (Math.random() * HEIGHT);
+        
+        ball = new Ball(10, yPos, xPos);
+        
     }
     
     public synchronized void start(){
@@ -66,8 +67,8 @@ public class BallPhysics implements Runnable{
             unprocessedTime = unprocessedTime + (now -lastTime)/ns;
             lastTime = now;
             
-            if (unprocessedTime >= 1) {
-                update();
+            while (unprocessedTime >= 1) {
+                update();   
                 unprocessedTime--;
             }
             render();

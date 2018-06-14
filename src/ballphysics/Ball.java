@@ -2,8 +2,6 @@ package ballphysics;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Ball {
     
@@ -11,10 +9,9 @@ public class Ball {
     private int xPos;
     private int yPos;
     private int xVel;
-    private int yVel;
+    private int yVel;  
     
-    
-    public Ball( int size){
+    public Ball(int size){
         this.size = size;
         this.xPos = 0;
         this.yPos = 0;
@@ -22,15 +19,31 @@ public class Ball {
         yVel = 1;
     }
     
+    public Ball(int size, int xPos, int yPos){
+        this.size = size;
+        this.xPos= xPos;
+        this.yPos = yPos;
+        xVel = 1;
+        yVel = 1;
+    }
+    
+    public Ball(int size, int xPos, int yPos, int xVel, int yVel){
+        this.size = size;
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.xVel = xVel;
+        this.yVel = yVel;
+    }
+    
     public void update(){
-        if (inBounds(xPos, xVel, 0, BallPhysics.HEIGHT)) {
+        if (inBounds(xPos, xVel, 0, BallPhysics.HEIGHT-size)) {
             xPos = xPos + xVel;
         }else{
             xVel = xVel * -1;
             xPos = xPos + xVel;
         }
         
-        if (inBounds(yPos, yVel, 0, BallPhysics.WIDTH)) {
+        if (inBounds(yPos, yVel, 0, BallPhysics.WIDTH-size)) {
             yPos = yPos + yVel;
         }else{
             yVel = yVel * -1;
