@@ -8,9 +8,9 @@ public class BallPhysics implements Runnable{
     public static final int WIDTH = 350;
     public static final int HEIGHT = WIDTH * 16 / 9;
     
-    private Thread thread;
-    private Display display;
-    private Ball ball;
+    private final Thread thread;
+    private final Display display;
+    private final Ball ball;
     private boolean running;
     public BufferStrategy bufferStrategy;
     
@@ -42,7 +42,6 @@ public class BallPhysics implements Runnable{
         if (bufferStrategy == null) {
             display.createBufferStrategy(3);
             bufferStrategy = display.getBufferStrategy();
-            return;
         }
         
         Graphics graphics = bufferStrategy.getDrawGraphics();
@@ -58,20 +57,31 @@ public class BallPhysics implements Runnable{
     @Override
     public void run(){
         long lastTime = System.nanoTime();
-        double unprocessedTime = 0;
+	long timer = System.currentTimeMillis();
         double ns = 1000000000.0/ 60.0;
+	double unprocessedTime = 0;
+        int frames = 0;
+	int updates = 0;
         
-        
+	long now;
         while(running){
-            long now = System.nanoTime();
-            unprocessedTime = unprocessedTime + (now -lastTime)/ns;
+            now = System.nanoTime();
+            unprocessedTime += (now -lastTime)/ns;
             lastTime = now;
             
             while (unprocessedTime >= 1) {
-                update();   
+                update();
+		updates++;
+		render();   
+		frames++;
                 unprocessedTime--;
             }
-            render();
+
+	    if(System.currentTimeMillis() - timer > 1000){
+		timer += 1000;
+		updates = 0;
+		frames = 0;
+            }
         }
         stop();
     }
