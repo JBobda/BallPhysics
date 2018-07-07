@@ -22,9 +22,7 @@ public class Display extends Canvas{
         this.height = height;
         dimension = new Dimension(height, width);
         setup();
-        
-        
-        
+          
     }
     
     public void setup(){
@@ -32,11 +30,12 @@ public class Display extends Canvas{
         this.setPreferredSize(dimension);
         this.setMaximumSize(dimension);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.add(this);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setResizable(false);
+        
     }
     
 }

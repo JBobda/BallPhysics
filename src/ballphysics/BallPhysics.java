@@ -9,9 +9,9 @@ public class BallPhysics implements Runnable{
     public static final int WIDTH = 350;
     public static final int HEIGHT = WIDTH * 16 / 9;
     
-    private Thread thread;
-    private Display display;
-    private Ball ball;
+    private final Thread thread;
+    private final Display display;
+    private final Ball ball;
     private boolean running;
     public BufferStrategy bufferStrategy;
     
