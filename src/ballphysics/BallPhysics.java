@@ -3,6 +3,7 @@ package ballphysics;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.Toolkit;
 
 public class BallPhysics implements Runnable{
     public static final int WIDTH = 350;
@@ -39,10 +40,12 @@ public class BallPhysics implements Runnable{
     }
     
     public void render(){
+        if (System.getProperty("os.name").indexOf("nix") >= 0 || System.getProperty("os.name").indexOf("nux") >= 0) {
+            Toolkit.getDefaultToolkit().sync();
+        }
         if (bufferStrategy == null) {
             display.createBufferStrategy(3);
             bufferStrategy = display.getBufferStrategy();
-            return;
         }
         
         Graphics graphics = bufferStrategy.getDrawGraphics();
@@ -58,20 +61,31 @@ public class BallPhysics implements Runnable{
     @Override
     public void run(){
         long lastTime = System.nanoTime();
-        double unprocessedTime = 0;
+	long timer = System.currentTimeMillis();
         double ns = 1000000000.0/ 60.0;
+	double unprocessedTime = 0;
+        int frames = 0;
+	int updates = 0;
         
-        
+	long now;
         while(running){
-            long now = System.nanoTime();
-            unprocessedTime = unprocessedTime + (now -lastTime)/ns;
+            now = System.nanoTime();
+            unprocessedTime += (now -lastTime)/ns;
             lastTime = now;
             
             while (unprocessedTime >= 1) {
-                update();   
+                update();
+		updates++;
+		render();   
+		frames++;
                 unprocessedTime--;
             }
-            render();
+
+	    if(System.currentTimeMillis() - timer > 1000){
+		timer += 1000;
+		updates = 0;
+		frames = 0;
+            }
         }
         stop();
     }
